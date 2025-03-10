@@ -1,0 +1,30 @@
+@charset "utf-8";
+
+.form-list{
+    text-align: center;
+}
+
+.input-fild{
+    width: 300px;
+    height: 15px;
+}
+
+
+.form-filed-radio{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+#item-zone{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    align-items: center;
+    width: 750px;
+    margin: 0 auto; /* 水平方向の中央配置 */
+}
+
+.item{
+    width: 30%;
+}
