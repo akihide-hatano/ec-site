@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./registration.css">
+    <title>登録画面</title>
+</head>
+<body>
+    <form action="" id="product-form">
+        <div class="product-name">
+            <label for="">商品名</label>
+            <input type="text" id="product-name" name="name" required>
+        </div>
+        <div class="product-price">
+            <label for="">価格</label>
+            <input type="number" id="product-price" name="price" required>
+        </div>
+        <div class="product-image">
+            <label for="">商品写真</label>
+            <input type="file" id="product-image" name="image" accept="image/*" required>
+        </div>
+
+    <button type="submit">商品を登録する</button>
+    </form>
+    <script src="./registration.js"></script>
+</body>
+</html>
