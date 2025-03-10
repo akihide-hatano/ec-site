@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { getFirestore, collection, getDocs,addDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 
 // Firebase 設定
 const firebaseConfig = {
@@ -14,6 +16,8 @@ const firebaseConfig = {
 // Firebase 初期化
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage = getStorage(app); // storage 変数を初期化
+
 
 // const imagePaths = [
 //   "https://firebasestorage.googleapis.com/v0/b/ecsite-backend.firebasestorage.app/o/item1.png?alt=media&token=e33f33af-81c7-4f76-9ed5-d7544f6cfab2",
@@ -42,6 +46,37 @@ const db = getFirestore(app);
 //   // });
 // });
 // });
+
+//商品登録フォームにて登録
+const form = document.getElementById("product-form");
+if (form) { // フォームが存在する場合のみ処理を実行
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = form.name.value;
+    const price = form.price.value;
+    const image = form.image.files[0];
+
+    const storageRef = ref(storage, `images/${image.name}`);
+    await uploadBytes(storageRef, image);
+    const imageUrl = await getDownloadURL(storageRef);
+
+    try {
+      await addDoc(collection(db, "orders"), {
+        name: name,
+        price: price,
+        imageUrls: imageUrl,
+      });
+      message.textContent = "商品の登録に成功しました。";
+      displayOrderData(); // 商品表示関数を呼び出す
+    } catch (error) {
+      console.error("商品の登録に失敗しました:", error);
+      message.textContent = "商品の登録に失敗しました。";
+    }
+  });
+}
+
+//商品表示(index.html)について
 async function displayOrderData() {
   try {
     const querySnapshot = await getDocs(collection(db, "orders"));
