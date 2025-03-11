@@ -1,6 +1,6 @@
 //import宣言
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs,addDoc } from "firebase/firestore";
+import { getFirestore, collection, getDocs,addDoc,query,orderBy } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
@@ -82,9 +82,13 @@ if (form) { // フォームが存在する場合のみ処理を実行
 }
 
 //商品表示(index.html)について
-async function displayOrderData() {
+async function displayOrderData(orderByField="price", orderByDirection="desc") {
   try {
-    const querySnapshot = await getDocs(collection(db, "orders"));
+    const q = query(
+      collection(db,"orders"),
+      orderBy(orderByField, orderByDirection), // 価格で昇順にソート
+    );
+    const querySnapshot = await getDocs(q);
     if (!querySnapshot.empty) {
       const itemContainer = document.querySelector("#item-zone"); // 商品を表示するコンテナ要素
       itemContainer.innerHTML = ""; // コンテナをクリア
@@ -135,5 +139,23 @@ async function displayOrderData() {
   }
 }
 
-
 displayOrderData();
+
+const priceAscButton = document.getElementById("price-asc");
+const priceDescButton = document.getElementById("price-desc");
+const dateDescButton = document.getElementById("date-desc");
+
+
+priceAscButton.addEventListener("click", () => {
+  displayOrderData(orderByField="name", orderByDirection="desc");
+});
+
+priceDescButton.addEventListener("click", () => {
+  displayOrderData("price", "desc");
+});
+
+dateDescButton.addEventListener("click", () => {
+  displayOrderData("createdAt", "desc");
+});
+
+
