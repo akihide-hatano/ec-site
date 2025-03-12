@@ -82,11 +82,11 @@ if (form) { // フォームが存在する場合のみ処理を実行
 }
 
 //商品表示(index.html)について
-async function displayOrderData(orderByField="price", orderByDirection="desc") {
+async function displayOrderData(orderByField, orderByDirection) {
   try {
     const q = query(
       collection(db,"orders"),
-      orderBy(orderByField, orderByDirection), // 価格で昇順にソート
+      orderBy(orderByField,orderByDirection), // 価格で昇順にソート
     );
     const querySnapshot = await getDocs(q);
     if (!querySnapshot.empty) {
@@ -139,23 +139,29 @@ async function displayOrderData(orderByField="price", orderByDirection="desc") {
   }
 }
 
-displayOrderData();
+displayOrderData("price", "desc"); // 初期表示時のソート順を指定
 
 const priceAscButton = document.getElementById("price-asc");
 const priceDescButton = document.getElementById("price-desc");
 const dateDescButton = document.getElementById("date-desc");
 
 
-priceAscButton.addEventListener("click", () => {
-  displayOrderData(orderByField="name", orderByDirection="desc");
+priceAscButton.addEventListener("click", (event) => {
+  event.preventDefault(); // デフォルトのイベント処理を防止
+  console.log("priceAscButton clicked");
+  console.log("orderByField:", "price");
+  console.log("orderByDirection:", "asc");
+  displayOrderData("price", "asc");
+
 });
 
-priceDescButton.addEventListener("click", () => {
+priceDescButton.addEventListener("click", (event) => {
+  event.preventDefault();
   displayOrderData("price", "desc");
 });
 
 dateDescButton.addEventListener("click", () => {
-  displayOrderData("createdAt", "desc");
+  event.preventDefault();
+  displayOrderData("name", "desc");
 });
-
 
