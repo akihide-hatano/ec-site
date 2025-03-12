@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs,addDoc,query,orderBy } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-
+import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "firebase/auth";
 
 // Firebase 設定
 const firebaseConfig = {
@@ -160,8 +160,36 @@ priceDescButton.addEventListener("click", (event) => {
   displayOrderData("price", "desc");
 });
 
-dateDescButton.addEventListener("click", () => {
+dateDescButton.addEventListener("click", (event) => {
   event.preventDefault();
   displayOrderData("name", "desc");
 });
 
+//Login機能
+const auth = getAuth();
+const loginForm = document.getElementById("login-form");
+const emailLoginButton = document.getElementById("login-formButton");
+const googleLoginButton = document.getElementById("google-loginButton");
+
+loginForm.addEventListener("submit",(event)=>{
+  event.preventDefault();
+  const email = loginForm.email.value;
+  const password = loginForm.password.value;
+
+  signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // 登録成功
+    const user = userCredential.user;
+    console.log("登録成功:", user);
+    // 登録後の処理
+  })
+  .catch((error) => {
+    // 登録失敗
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.error("登録失敗:", errorCode, errorMessage);
+    // エラーメッセージを表示
+
+
+    });  
+});
