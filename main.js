@@ -69,7 +69,7 @@ if (form) { // フォームが存在する場合のみ処理を実行
     try {
       await addDoc(collection(db, "orders"), {
         name: name,
-        price: price,
+        price: parseInt(price),
         imageUrls: imageUrl,
       });
       message.textContent = "商品の登録に成功しました。";
@@ -165,31 +165,31 @@ dateDescButton.addEventListener("click", (event) => {
   displayOrderData("name", "desc");
 });
 
-//Login機能
-const auth = getAuth();
-const loginForm = document.getElementById("login-form");
-const emailLoginButton = document.getElementById("login-formButton");
-const googleLoginButton = document.getElementById("google-loginButton");
+// //Login機能
+// const auth = getAuth();
+// const loginForm = document.getElementById("login-form");
+// const emailLoginButton = document.getElementById("login-formButton");
+// const googleLoginButton = document.getElementById("google-loginButton");
 
-loginForm.addEventListener("submit",(event)=>{
-  event.preventDefault();
-  const email = loginForm.email.value;
-  const password = loginForm.password.value;
+// loginForm.addEventListener("submit",(event)=>{
+//   event.preventDefault();
+//   const email = loginForm.email.value;
+//   const password = loginForm.password.value;
 
-  signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // 登録成功
-    const user = userCredential.user;
-    console.log("登録成功:", user);
-    // 登録後の処理
-  })
-  .catch((error) => {
-    // 登録失敗
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.error("登録失敗:", errorCode, errorMessage);
-    // エラーメッセージを表示
+//   signInWithEmailAndPassword(auth, email, password)
+//   .then((userCredential) => {
+//     // 登録成功
+//     const user = userCredential.user;
+//     console.log("登録成功:", user);
+//     // 登録後の処理
+//   })
+//   .catch((error) => {
+//     // 登録失敗
+//     const errorCode = error.code;
+//     const errorMessage = error.message;
+//     console.error("登録失敗:", errorCode, errorMessage);
+//     // エラーメッセージを表示
 
 
-    });  
-});
+//     });  
+// });
